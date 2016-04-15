@@ -175,7 +175,11 @@ module RSpec::Puppet
 
     def build_catalog(*args)
       @@cache.get(*args) do |*args|
-        build_catalog_without_cache(*args)
+        beginning_time = Time.now
+        cat = build_catalog_without_cache(*args)
+        end_time = Time.now
+        puts "Catalog took #{(end_time - beginning_time)*1000} milliseconds to compile"
+        cat
       end
     end
 

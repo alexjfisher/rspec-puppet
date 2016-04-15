@@ -14,6 +14,8 @@ module RSpec::Puppet
       # decouple the hash key from whatever the blk might do to it
       key = Marshal.load(Marshal.dump(args))
       if !@cache.has_key? key
+        puts "CACHE MISS"
+        return (blk || @default_proc).call(*args)
         @cache[key] = (blk || @default_proc).call(*args)
         @lra << key
         expire!
